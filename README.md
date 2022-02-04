@@ -1,3 +1,3 @@
 # Topdf-converter
 
-This is a program used to convert files into PDF format using a wxPython
+This is a program used to convert docx files into PDF format 
