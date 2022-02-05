@@ -16,9 +16,12 @@ class MyFrame(wx.Frame):
         mesg = wx.StaticText(panel,label="Select file to convert", pos = (100,50), size =wx.DefaultSize, )
         mesg.SetFont(font)
         my_sizer.Add(mesg , wx.ALL | wx.EXPAND, 5)   
-        my_btn = wx.Button(panel, label='Upload')
+        my_btn = wx.Button(panel, label='Convert Docx to PDF')
+        my_btn2 = wx.Button(panel, label='Convert PDF to Docx')
         my_btn.Bind(wx.EVT_BUTTON,self.findDocxFile)
-        my_sizer.Add(my_btn, 0, wx.ALL | wx.CENTER, 5)        
+        my_btn2.Bind((wx.EVT_BUTTON),self.findPdfFile)
+        my_sizer.Add(my_btn, 0, wx.ALL | wx.CENTER, 5)  
+        my_sizer.Add(my_btn2,0,wx.ALL | wx.ALIGN_CENTER_HORIZONTAL,5)      
         panel.SetSizer(my_sizer)  
 
         self.Show()
@@ -30,10 +33,24 @@ class MyFrame(wx.Frame):
         openFileDialog.ShowModal()
         filePath = openFileDialog.GetPath()
         openFileDialog.Destroy()
-        progressMax = 100
-        docxToPdf(filePath)
-        wx.MessageBox('Convert Completed', 'Dialog', wx.OK | wx.ICON_MASK)
+        if filePath:
+            docxToPdf(filePath)
+            wx.MessageBox('Convert Completed', 'Dialog', wx.OK | wx.ICON_MASK)
+        else:
+            wx.MessageBox('File not selected', 'Dialog', wx.OK | wx.ICON_ERROR)
         self.Close()
+
+    def findPdfFile(self,event):
+        openFileDialog = wx.FileDialog(frame,"Open","","","PDF Files (*.pdf)|*.pdf", wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
+        openFileDialog.ShowModal()
+        filePath = openFileDialog.GetPath()
+        openFileDialog.Destroy()
+        if filePath:
+            print("FIle convert here ")
+            wx.MessageBox('Convert Completed', 'Dialog', wx.OK | wx.ICON_MASK)
+        else:
+            wx.MessageBox('File not selected', 'Dialog', wx.OK | wx.ICON_ERROR)
+        self.Close()    
 
 # docx to pdf 
 def docxToPdf(docxFile,saveLocation = None):
