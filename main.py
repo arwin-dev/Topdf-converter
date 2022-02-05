@@ -1,7 +1,6 @@
-from cProfile import label
-from tkinter.ttk import Style
 from docx2pdf import convert
-from numpy import size 
+from pdf2docx import converter
+import win32com.client
 import wx
 
 # GUI
@@ -47,6 +46,7 @@ class MyFrame(wx.Frame):
         openFileDialog.Destroy()
         if filePath:
             print("FIle convert here ")
+            pdfToDocs(filePath)
             wx.MessageBox('Convert Completed', 'Dialog', wx.OK | wx.ICON_MASK)
         else:
             wx.MessageBox('File not selected', 'Dialog', wx.OK | wx.ICON_ERROR)
@@ -56,6 +56,13 @@ class MyFrame(wx.Frame):
 def docxToPdf(docxFile,saveLocation = None):
     print("Starting Convertion")
     convert(docxFile)
+
+def pdfToDocs(pdfFile,saveLocation = None):
+    print("Starting Convertion")
+    cv = converter(pdfFile)
+    save = replace(".pdf","docx")
+    cv.conver(save)
+    cv.close()
 
 
 
