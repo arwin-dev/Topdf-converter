@@ -1,5 +1,5 @@
 from docx2pdf import convert
-from pdf2docx import converter
+from pdf2docx import Converter
 import win32com.client
 import wx
 
@@ -45,7 +45,7 @@ class MyFrame(wx.Frame):
         filePath = openFileDialog.GetPath()
         openFileDialog.Destroy()
         if filePath:
-            print("FIle convert here ")
+            #print("FIle convert here ")
             pdfToDocs(filePath)
             wx.MessageBox('Convert Completed', 'Dialog', wx.OK | wx.ICON_MASK)
         else:
@@ -59,9 +59,12 @@ def docxToPdf(docxFile,saveLocation = None):
 
 def pdfToDocs(pdfFile,saveLocation = None):
     print("Starting Convertion")
-    cv = converter(pdfFile)
-    save = replace(".pdf","docx")
-    cv.conver(save)
+    cv = Converter(pdfFile)
+    size = len(pdfFile)
+    save = pdfFile[:size-3]
+    save = save + "docx"
+    print(save)
+    cv.convert(save)
     cv.close()
 
 
